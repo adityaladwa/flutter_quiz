@@ -14,9 +14,15 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   var _question = 0;
-  var _questions = [
-    "What is your favorite color?",
-    "What is your favorite fruit?"
+  static const _questions = [
+    {
+      "questionText": "What is your favorite color?",
+      "answers": ["Red", "Green", "Blue"]
+    },
+    {
+      "questionText": "What is your favorite bird?",
+      "answers": ["Peacock", "Pegasus", "Pegasus"]
+    },
   ];
   void _buttonPressed() {
     setState(() {
@@ -32,10 +38,10 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(title: Text("First App")),
         body: Column(
           children: <Widget>[
-            Question(_questions.elementAt(_question)),
-            Answer(_buttonPressed, "Answer 1"),
-            Answer(_buttonPressed, "Answer 2"),
-            Answer(_buttonPressed, "Answer 3"),
+            Question(_questions.elementAt(_question)["questionText"]),
+            ...(_questions[_question]['answers'] as List<String>)
+                .map((e) => Answer(_buttonPressed, e))
+                .toList()
           ],
         ),
       ),
