@@ -14,21 +14,39 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   var _question = 0;
+  var _totalScore = 0;
+
   static const _questions = [
     {
       "questionText": "What is your favorite color?",
-      "answers": ["Red", "Green", "Blue"]
+      "answers": [
+        {"text": "Red", "score": 10},
+        {"text": "Green", "score": 5},
+        {"text": "Blue", "score": 6}
+      ]
     },
     {
       "questionText": "What is your favorite bird?",
-      "answers": ["Peacock", "Pegasus", "Pegasus"]
+      "answers": [
+        {"text": "Peacock", "score": 2},
+        {"text": "Pegasus", "score": 7},
+        {"text": "Parrot", "score": 1}
+      ]
     },
   ];
-  void _buttonPressed() {
+
+  void _buttonPressed(int score) {
+    _totalScore += score;
     setState(() {
       _question += 1;
     });
-    print("Button pressed");
+  }
+
+  void _resetQuiz() {
+    setState(() {
+      _totalScore = 0;
+      _question = 0;
+    });
   }
 
   @override
@@ -38,7 +56,7 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(title: Text("First App")),
         body: _question < _questions.length
             ? Quiz(_question, _questions, _buttonPressed)
-            : Result(),
+            : Result(_totalScore, _resetQuiz),
       ),
     );
   }
